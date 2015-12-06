@@ -20,27 +20,34 @@ class FileManager
   end
   
   def self.search username
-    file=File.open('Data.txt').read
-    file.gsub!(/\r\n?/, "\n")
-    file.each_line do |line|
-      if line.to_s.include? username
-        return line.to_s
+    users=self.getUsers
+    userlist = users.split("\n")
+    userlist.each do |usr|
+      tokens=usr.split(",")
+      if tokens[0]==username
+        return usr
       end
     end
     return ' '
   end
 
-  def self.isUnique str
-    file=File.open('Data.txt').read
-    file.gsub!(/\r\n?/, "\n")
-    file.each_line do |line|
-      if line.to_s.include? str
+  def self.isUnique str,pos
+    users=self.getUsers
+    userlist = users.split("\n")
+    if  userlist.length<=1
+      return true
+    end
+    userlist.each do |usr|
+      tokens=usr.split(",")
+      if tokens[pos]<=1
+        return true
+      end
+      if tokens[pos]==str
         return false
       end
     end
     return true
   end
-
   def self.getUsers
     users=""
     file = File.open('Data.txt').read
@@ -50,5 +57,5 @@ class FileManager
     end
     return users
   end
-  
 end
+
