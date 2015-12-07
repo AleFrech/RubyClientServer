@@ -26,7 +26,8 @@ class Server
           FileManager.reWriteFile()
           res='NO'
           usersList.each do |u|
-            if !(u.to_s.include? tokens[0])
+            tok=u.split(',')
+            if tokens[0]!=tok[0]
               FileManager.writeUser(u)
             else
               res='YES'
